@@ -4,6 +4,10 @@
     _benches = benches;
   };
 
+  var addABench = function (bench) {
+      _benches.push(bench);
+    };
+
   var CHANGE_EVENT = "change";
 
   root.BenchStore = $.extend({}, EventEmitter.prototype, {
@@ -16,6 +20,7 @@
       this.removeListener(CHANGE_EVENT, callback);
     },
 
+
     all: function () {
       return _benches.slice();
     },
@@ -23,6 +28,10 @@
     dispatcherId: AppDispatcher.register(function(payload){
       if(payload.actionType === BenchConstants.BENCHES_RECEIVED){
         resetBenches(payload.benches);
+        BenchStore.emit(CHANGE_EVENT);
+      }
+      if(payload.actionType === BenchConstants.BENCH_RECEIVED){
+        addABench(payload.bench);
         BenchStore.emit(CHANGE_EVENT);
       }
     })

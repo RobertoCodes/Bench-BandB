@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151113150118) do
+ActiveRecord::Schema.define(version: 20151116144022) do
 
   create_table "benches", force: :cascade do |t|
-    t.string "description", null: false
-    t.float  "lat",         null: false
-    t.float  "lng",         null: false
+    t.string  "description", null: false
+    t.float   "lat",         null: false
+    t.float   "lng",         null: false
+    t.integer "seating"
   end
 
 end

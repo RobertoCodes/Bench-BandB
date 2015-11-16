@@ -11,6 +11,13 @@ var markEquals = function (mark,otherMark) {
 
 window.Map = React.createClass({
 
+  handleMapClick: function (event) {
+    var coords = event.latLng;
+    var lat = coords.lat();
+    var lng = coords.lng();
+    this.props.handler(lat,lng);
+  },
+
   componentDidMount: function () {
     var map = React.findDOMNode(this.refs.map);
     var mapOptions = {
@@ -19,6 +26,9 @@ window.Map = React.createClass({
     };
     this.map = new google.maps.Map(map, mapOptions);
     BenchStore.addChangeListener(this._changed);
+    google.maps.event.addListener(this.map, 'click', function (event) {
+      this.handleMapClick(event);
+    }.bind(this));
     google.maps.event.addListener(this.map, 'idle', function () {
       var latLng = this.map.getBounds();
       var northEast = latLng.getNorthEast();
@@ -33,7 +43,7 @@ window.Map = React.createClass({
     newMarks = [];
     BenchStore.all().map(function (bench) {
       var marker = new google.maps.Marker({
-        position: {lat: bench.lat, lng: bench.lng}
+        position: {lat: bench.lat, lng: bench.lng},
       });
       var included = false;
       _markers.forEach(function (otherMark) {
@@ -67,7 +77,7 @@ window.Map = React.createClass({
 
   render: function () {
     return (
-      <div className="map" ref="map"></div>
+      <div className="map" ref="map" onClick={this.handleMapClick}></div>
     );
   }
 
