@@ -7,6 +7,19 @@
 
   var CHANGE_EVENT = "change";
 
+  var resetBoundsParams = function (bounds) {
+      _filterParams.bounds = bounds;
+  };
+
+  var resetMinSeats = function (min) {
+    _filterParams.minSeats = min;
+  };
+
+  var resetMaxSeats = function (max) {
+    _filterParams.maxSeats = max;
+  };
+
+
   root.FilterStore = $.extend({}, EventEmitter.prototype, {
 
     addChangeListener: function (callback) {
@@ -22,9 +35,18 @@
       return _filterParams;
     },
 
+
     dispatcherId: AppDispatcher.register(function(payload){
-      if(payload.actionType === FilterConstants.PARAMS_RECEIVED){
-        resetfilterParams(payload.params);
+      if (payload.actionType === FilterConstants.UPDATE_BOUNDS_PARAMS){
+        resetBoundsParams(payload.bounds);
+        FilterStore.emit(CHANGE_EVENT);
+      }
+      if (payload.actionType === FilterConstants.UPDATE_MIN_SEATS){
+        resetMinSeats(payload.min);
+        FilterStore.emit(CHANGE_EVENT);
+      }
+      if (payload.actionType === FilterConstants.UPDATE_MAX_SEATS){
+        resetMaxSeats(payload.max);
         FilterStore.emit(CHANGE_EVENT);
       }
     })

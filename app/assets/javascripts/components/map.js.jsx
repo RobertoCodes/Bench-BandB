@@ -26,6 +26,7 @@ window.Map = React.createClass({
     };
     this.map = new google.maps.Map(map, mapOptions);
     BenchStore.addChangeListener(this._changed);
+    FilterStore.addChangeListener(this._changed);
     google.maps.event.addListener(this.map, 'click', function (event) {
       this.handleMapClick(event);
     }.bind(this));
@@ -33,8 +34,8 @@ window.Map = React.createClass({
       var latLng = this.map.getBounds();
       var northEast = latLng.getNorthEast();
       var southWest = latLng.getSouthWest();
-      params = {bounds: {northEast : {lat : northEast.lat(), lng : northEast.lng()}, southWest : {lat : + southWest.lat(), lng: southWest.lng()}}};
-      ApiUtil.fetchBenches(params);
+      bounds = {northEast : {lat : northEast.lat(), lng : northEast.lng()}, southWest : {lat : + southWest.lat(), lng: southWest.lng()}};
+      FilterAction.updateBoundsParams(bounds);
     }.bind(this));
   },
 

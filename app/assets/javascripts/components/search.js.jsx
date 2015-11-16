@@ -1,7 +1,7 @@
 window.Search = React.createClass({
 
   getInitialState: function () {
-    return ({minSeats: "", maxSeats: ""});
+    return (FilterStore.all());
   },
 
   clickMapHandler: function (lat,lng) {
@@ -11,6 +11,11 @@ window.Search = React.createClass({
 
   componentDidMount: function () {
     FilterStore.addChangeListener(this._changed);
+  },
+
+  _changed: function () {
+    this.setState(FilterStore.all());
+    ApiUtil.fetchBenches();
   },
 
   render: function () {

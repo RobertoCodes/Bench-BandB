@@ -1,12 +1,16 @@
+
+  var minSeats;
+  var maxSeats;
 var Filter = React.createClass({
 
-  getInitialState: function () {
-    return ({minSeats: "", maxSeats: ""});
+  updateMinSeatsFilter: function (event) {
+    minSeats = event.currentTarget.value;
+    FilterAction.updateMinSeats(minSeats);
   },
 
-
-  updateSeatsFilter: function () {
-    FilterAction.getFilteredResults(this.state.minSeats, this.state.maxSeats);
+  updateMaxSeatsFilter: function (event) {
+    maxSeats = event.currentTarget.value;
+    FilterAction.updateMaxSeats(maxSeats);
   },
 
   render: function () {
@@ -14,13 +18,13 @@ var Filter = React.createClass({
       <div>
       <label> Min # Seats </label>
       <input type="number"
-        value={this.state.minSeats}
-        onChange={this.updateSeatsFilter}
+        value={minSeats}
+        onChange={this.updateMinSeatsFilter}
       />
       <label> Max # Seats </label>
       <input type="number"
-        value={this.state.maxSeats}
-        onChange={this.updateSeatsFilter}
+        value={maxSeats}
+        onChange={this.updateMaxSeatsFilter}
       />
       </div>
     );

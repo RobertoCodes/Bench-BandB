@@ -11,7 +11,17 @@ class Api::BenchController < ApplicationController
 
 
   def index
-    @benches = Bench.in_bounds(params[:bounds])
+    minseats = params[:minSeats]
+    maxseats = params[:maxSeats]
+      if minseats == ""
+        minseats = "0"
+      end
+      if maxseats == ""
+        maxseats = "10000"
+      end
+
+    @benches = Bench.in_bounds(params[:bounds], minseats, maxseats)
+
     render :index
   end
 

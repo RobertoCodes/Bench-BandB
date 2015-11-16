@@ -1,5 +1,6 @@
 window.ApiUtil = {
-  fetchBenches: function (params) {
+  fetchBenches: function () {
+    params = FilterStore.all();
     $.ajax ({
       url: "/api/bench",
       dataType: "json",
@@ -18,7 +19,7 @@ window.ApiUtil = {
       data: {bench: bench},
       success: function (bench) {
         ApiAction.receiveABench(bench);
-        callback && callback(); 
+        callback && callback();
       }
     });
   }
